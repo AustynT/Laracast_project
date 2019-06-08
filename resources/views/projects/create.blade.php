@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+
+@extends('layout')
+
+@section('content')
     <h1>Create Projects</h1>
 
     <form method="POST" action="/projects/">
@@ -15,18 +10,21 @@
         {{ csrf_field() }}
     
         <div>
-            <input type="text" name="title" placeholder="Project title">
+            <label for="title" > </label>
+            <input class="input {{ $errors->has('title')? 'is-danger' : '' }}" type="text"  name="title"  placeholder="Project title" value="{{ old('title') }}">
         </div>
 
         <div>
-            <textarea name="description" placeholder="Project Description"></textarea>
+            <label for="description"></label>
+            <textarea  class="textarea {{ $errors->has('description')? 'is-danger' : '' }}" name="description" placeholder="Project Description" value="{{ old('description') }}" ></textarea>
         </div>
 
         <div>
             <button type="submit">Create Project</button>
         </div>
+
+
+    @include('errors')
     </form>
 
-
-</body>
-</html> 
+@endsection

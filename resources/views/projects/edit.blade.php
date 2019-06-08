@@ -4,7 +4,7 @@
     <h1 class="title">Edit Project</h1>
 
 
-    <form method="POST" action="/{{ $project->id }}" style="margin-bottom: 1em ;">
+    <form method="POST" action="/projects/{{ $project->id }}" style="margin-bottom: 1em ;">
 
     {{ method_field('PATCH') }}
         {{ csrf_field() }}

@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(){
 
-        $projects = Project::all();
+        $projects = Project::where('user_id', auth()->id())->get();
 
 
         return view('projects.index', compact('projects'));
@@ -17,10 +23,12 @@ class ProjectsController extends Controller
 
     public function show(Project $project){
 
+        if($project->user_id !==auth()->id()) {
 
+            abort(403);
+        }
 
         return view('projects.show', compact('project'));
-
     }
 
     public function create(){
@@ -31,8 +39,12 @@ class ProjectsController extends Controller
 
     public function store(){
 
+        $props = request()->validate([
+            'title'=> ['required','min:3','max:255'],
+            'description'=>['required', 'min:3']
+        ]);
 
-        Project::create(request(['title', 'description']));
+        $props['user_id'] = auth()->id();
 
         return redirect('/projects');
 
